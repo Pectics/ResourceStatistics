@@ -1,0 +1,11 @@
+name: ResourceStatistics
+version: '1.0.0'
+main: me.pectics.bukkit.plugin.resourcestatistics.ResourceStatistics
+api-version: '1.21'
+authors: [ Pectics ]
+commands:
+  stats:
+    aliases: [ rs ]
+    description: Main command for ResourceStatistics plugin
+    usage: /<command> <reload|save>
+    permission: op
