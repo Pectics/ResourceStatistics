@@ -28,8 +28,9 @@ public class EntityStatsListener implements Listener {
         if (cause == null) return;
         if (cause instanceof Player player) {
             if (player.isOp()) return;
-            StatsRecorder.record(ENTITY, event.getEntityType() + ".death.player", 1);
+            StatsRecorder.record(ENTITY, event.getEntityType() + ".death_by.player", 1);
         }
+        StatsRecorder.record(ENTITY, event.getEntityType() + ".death_by." + cause.getType(), 1);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
