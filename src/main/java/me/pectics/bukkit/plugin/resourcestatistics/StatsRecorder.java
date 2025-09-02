@@ -59,7 +59,6 @@ public class StatsRecorder {
             blockConfig.save(blockFile);
             entityConfig.save(entityFile);
             itemConfig.save(itemFile);
-            plugin.getLogger().info("Stats files saved successfully.");
         } catch (Exception e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to save stats files: " + e.getMessage(), e);
         }

@@ -24,6 +24,7 @@ public final class ResourceStatistics extends JavaPlugin {
     public void onDisable() {
         getServer().getScheduler().cancelTasks(this);
         StatsRecorder.save();
+        getLogger().info("Stats files saved successfully.");
     }
 
 }

@@ -33,12 +33,14 @@ public class CommandExecutor implements TabExecutor {
         switch (args[0].toLowerCase()) {
             case "save" -> {
                 StatsRecorder.save();
+                plugin.getLogger().info("Stats files saved successfully.");
                 sender.sendMessage("Statistics saved.");
                 return true;
             }
             case "reload" -> {
                 Bukkit.getServer().getPluginManager().disablePlugin(plugin);
                 Bukkit.getServer().getPluginManager().enablePlugin(plugin);
+                plugin.getLogger().info("Stats plugin reloaded successfully.");
                 sender.sendMessage("Statistics reloaded.");
                 return true;
             }
