@@ -5,6 +5,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 
 public class StatsRecorder {
@@ -19,11 +22,13 @@ public class StatsRecorder {
         ITEM
     }
 
-    private static ResourceStatistics plugin;
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     private static final String BLOCK_STATS_FILE = "block-stats.yml";
     private static final String ENTITY_STATS_FILE = "entity-stats.yml";
     private static final String ITEM_STATS_FILE = "item-stats.yml";
+
+    private static ResourceStatistics plugin;
 
     private static File blockFile;
     private static File entityFile;
@@ -46,12 +51,22 @@ public class StatsRecorder {
         itemConfig = YamlConfiguration.loadConfiguration(itemFile);
     }
 
-    public static void record(@NotNull StatType type, String key, int delta) {
-        switch (type) {
-            case BLOCK -> blockConfig.set(key, blockConfig.getInt(key, 0) + delta);
-            case ENTITY -> entityConfig.set(key, entityConfig.getInt(key, 0) + delta);
-            case ITEM -> itemConfig.set(key, itemConfig.getInt(key, 0) + delta);
-        }
+    public static void record(@NotNull StatType type, String key, long delta) {
+        timeEmbedRecord(switch (type) {
+            case BLOCK -> blockConfig;
+            case ENTITY -> entityConfig;
+            case ITEM -> itemConfig;
+        }, key, delta);
+    }
+
+    private static void timeEmbedRecord(@NotNull FileConfiguration config, String key, long delta) {
+        // Update total
+        String totalKey = key + ".total";
+        config.set(totalKey, config.getLong(totalKey, 0L) + delta);
+        // Update daily
+        String date = DATE_FORMAT.format(new Date());
+        String timedKey = key + "." + date;
+        config.set(timedKey, config.getLong(timedKey, 0L) + delta);
     }
 
     public static void save() {
